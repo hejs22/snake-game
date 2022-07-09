@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Gameplay extends JFrame {
 
-    static int sizeOfBoard = 25;
+    static int sizeOfBoard = 33;
     static int waitTime = 120;
     static int sizeOfBox = 30;
     static JFrame Frame = new JFrame();
@@ -19,19 +19,36 @@ public class Gameplay extends JFrame {
     public Gameplay() {
         JPanel Panel = new JPanel();
         Frame.add(Panel);
-        JButton playButton = new JButton("Play");
+        JButton playButton = new JButton("Easy");
+        JButton playButtonHard = new JButton("Hard");
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 P.alive = true;
+                P.hard = false;
                 playButton.setVisible(false);
                 Panel.setVisible(false);
                 B1.fillGameBoard(Frame);
             }
         });
+
+        playButtonHard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                P.alive = true;
+                P.hard = true;
+                waitTime = 80;
+                playButton.setVisible(false);
+                Panel.setVisible(false);
+                B1.fillGameBoard(Frame);
+            }
+        });
+
+
         Frame.setFocusable(true);
         Frame.setFocusTraversalKeysEnabled(false);
         Panel.add(playButton);
+        Panel.add(playButtonHard);
         Panel.setBackground(Color.ORANGE);
         Frame.setSize(150, 100);
         Frame.setLocation(0, 0);
@@ -60,6 +77,18 @@ public class Gameplay extends JFrame {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     P.direction = 4;
+                }
+                if (e.getKeyChar() == 'w') {
+                    P.direction = 1;
+                }
+                if (e.getKeyChar() == 's') {
+                    P.direction = 3;
+                }
+                if (e.getKeyChar() == 'a') {
+                    P.direction = 4;
+                }
+                if (e.getKeyChar() == 'd') {
+                    P.direction = 2;
                 }
                 if (e.getKeyChar() == 'r') {
                     P.restart(Frame);

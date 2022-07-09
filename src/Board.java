@@ -1,10 +1,6 @@
 import java.awt.*;
-import java.util.Arrays;
-
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.border.EmptyBorder;
 
 public class Board {
     public int boardWidth, boardHeight;
