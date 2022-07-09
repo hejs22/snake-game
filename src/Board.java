@@ -9,11 +9,9 @@ import javax.swing.border.EmptyBorder;
 public class Board {
     public int boardWidth, boardHeight;
     int sizeOfBox = Gameplay.sizeOfBox;
-    public Board(int width, int height, Player P) {
+    public Board(int width, int height) {
         boardHeight = height;
         boardWidth = width;
-        P.posX = width / 2;
-        P.posY = height / 2;
     }
 
     public void fillGameBoard(JFrame Frame) {
@@ -26,7 +24,7 @@ public class Board {
         JPanel[][] Square = new JPanel[width][height];
 
         boolean red = true;
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < width; i++) {  // Filling gameboard with green and lightgreen squares
             for (int j = 0; j < height; j++) {
                 Square[i][j] = new JPanel();
                 Square[i][j].setLocation(i * sizeOfBox, j * sizeOfBox);

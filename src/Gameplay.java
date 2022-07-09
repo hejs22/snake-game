@@ -8,12 +8,12 @@ import javax.swing.*;
 
 public class Gameplay extends JFrame {
 
-    static int sizeOfBoard = 19;
+    static int sizeOfBoard = 25;
     static int waitTime = 120;
     static int sizeOfBox = 30;
     static JFrame Frame = new JFrame();
     static Player P = new Player("hejs", Frame);
-    static Board B1 = new Board(sizeOfBoard, sizeOfBoard, P);
+    static Board B1 = new Board(sizeOfBoard, sizeOfBoard);
 
 
     public Gameplay() {
@@ -44,18 +44,7 @@ public class Gameplay extends JFrame {
         Frame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    P.direction = 1;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    P.direction = 3;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    P.direction = 2;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    P.direction = 4;
-                }
+
             }
 
             @Override
@@ -76,18 +65,7 @@ public class Gameplay extends JFrame {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    P.direction = 1;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    P.direction = 3;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    P.direction = 2;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    P.direction = 4;
-                }
+
             }
         });
     }
