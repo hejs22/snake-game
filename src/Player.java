@@ -7,7 +7,7 @@ public class Player {
     boolean alive = false;
     int posX, posY, direction, length;
     int sizeOfBoard = Gameplay.sizeOfBoard;
-    int sizeOfBody = 50;
+    int sizeOfBody = 30;
     int waitTime = Gameplay.waitTime;
     int sizeOfBox = Gameplay.sizeOfBox;
     static ArrayList<JPanel> playerSprite = new ArrayList<JPanel>();
@@ -65,17 +65,17 @@ public class Player {
         }
 
         Random rand = new Random();
-        if ((posX == (apple.getLocation().x - (sizeOfBox - sizeOfBody) / 2) / 50) && (posY ==  (apple.getLocation().y - (sizeOfBox - sizeOfBody) / 2) / 50)) {
+        if ((posX == (apple.getLocation().x - (sizeOfBox - this.sizeOfBody) / 2) / sizeOfBody) && (posY ==  (apple.getLocation().y - (sizeOfBox - this.sizeOfBody) / 2) / sizeOfBody)) {
             growSnake2();
-            int randX = rand.nextInt(sizeOfBoard) * 50 + (sizeOfBox - sizeOfBody) / 2;
-            int randY = rand.nextInt(sizeOfBoard) * 50 + (sizeOfBox - sizeOfBody) / 2;
+            int randX = rand.nextInt(sizeOfBoard) * sizeOfBody + (sizeOfBox - this.sizeOfBody) / 2;
+            int randY = rand.nextInt(sizeOfBoard) * sizeOfBody + (sizeOfBox - this.sizeOfBody) / 2;
             for (int i = length - 1; i >= 0; i--) {
                 int X = playerSprite.get(i).getLocation().x;
                 int Y = playerSprite.get(i).getLocation().y;
                 if ((X == randX) && (Y == randY)) {
                     i = -1;
-                    randX = rand.nextInt(sizeOfBoard) * 50 + (sizeOfBox - sizeOfBody) / 2;
-                    randY = rand.nextInt(sizeOfBoard) * 50 + (sizeOfBox - sizeOfBody) / 2;
+                    randX = rand.nextInt(sizeOfBoard) * sizeOfBody + (sizeOfBox - this.sizeOfBody) / 2;
+                    randY = rand.nextInt(sizeOfBoard) * sizeOfBody + (sizeOfBox - this.sizeOfBody) / 2;
                 }
             }
             apple.setLocation(randX, randY);

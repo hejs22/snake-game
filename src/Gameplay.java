@@ -10,7 +10,7 @@ public class Gameplay extends JFrame {
 
     static int sizeOfBoard = 19;
     static int waitTime = 120;
-    static int sizeOfBox = 50;
+    static int sizeOfBox = 30;
     static JFrame Frame = new JFrame();
     static Player P = new Player("hejs", Frame);
     static Board B1 = new Board(sizeOfBoard, sizeOfBoard, P);
