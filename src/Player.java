@@ -1,19 +1,20 @@
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
     boolean alive = false;
     int posX, posY, direction, length;
+    static int score = 0;
     int sizeOfBoard = Gameplay.sizeOfBoard;
     int sizeOfBody = 30;
     int waitTime = Gameplay.waitTime;
     int sizeOfBox = Gameplay.sizeOfBox;
     static ArrayList<JPanel> playerSprite = new ArrayList<JPanel>();
-    static JPanel apple = new JPanel();
+    static JPanel apple = new JPanel(), shrink = new JPanel(), slowDown = new JPanel(), watermelon = new JPanel();
+    static JLabel ScoreLine = new JLabel("Score: 0");
 
-    static int randX = 3, randY = 3;
+    int appleX = 3, appleY = 3, shrinkX = -5, shrinkY = -5, slowDownX = -5, slowDownY = -5, watermelonX = -5, watermelonY = -5;
     String playerName;
     public Player(String name, JFrame Frame) {  // Initialization of Snake
         playerName = name;  // Setting parameters of Snake
@@ -30,11 +31,32 @@ public class Player {
 
         apple.setBackground(new java.awt.Color(255, 21, 0)); // Spawning first apple
         apple.setSize(sizeOfBody, sizeOfBody);
-        apple.setLocation(sizeOfBox * randX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * randY + (sizeOfBox - sizeOfBody) / 2);
+        apple.setLocation(sizeOfBox * appleX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * appleY + (sizeOfBox - sizeOfBody) / 2);
         Frame.add(apple);
+
+        shrink.setBackground(new java.awt.Color(255, 242, 0)); // Spawning first apple
+        shrink.setSize(sizeOfBody, sizeOfBody);
+        shrink.setLocation(-100, -100);
+        Frame.add(shrink);
+
+        slowDown.setBackground(new java.awt.Color(0, 255, 217)); // Spawning first apple
+        slowDown.setSize(sizeOfBody, sizeOfBody);
+        slowDown.setLocation(-100, -100);
+        Frame.add(slowDown);
+
+        watermelon.setBackground(new java.awt.Color(227, 1, 115)); // Spawning first apple
+        watermelon.setSize(sizeOfBody, sizeOfBody);
+        watermelon.setLocation(-100, -100);
+        Frame.add(watermelon);
+
+        Frame.add(ScoreLine);
+        ScoreLine.setLocation(sizeOfBoard * sizeOfBox - 120, 15);
+        ScoreLine.setSize(100, 10);
     }
 
     public void movePlayer(JFrame Frame) {       // Making moves based on input, checking if collision occurs or if apple is eaten
+        ScoreLine.setText("Score: " + score);
+
         if (direction != 0) {
             if (direction == 1) {
                 posY--;
@@ -74,25 +96,69 @@ public class Player {
 
 
         Random rand = new Random();  // Spawning apple at random location
-        if ((posX == randX) && (posY == randY)) {
+        if ((posX == appleX) && (posY == appleY)) {
             growSnake();
-            randX = rand.nextInt(sizeOfBoard);
-            randY = rand.nextInt(sizeOfBoard);
+            appleX = rand.nextInt(sizeOfBoard);
+            appleY = rand.nextInt(sizeOfBoard);
             for (int i = length - 1; i >= 0; i--) {
                 int X = (playerSprite.get(i).getLocation().x - (sizeOfBox - sizeOfBody) / 2) / sizeOfBody;
                 int Y = (playerSprite.get(i).getLocation().y - (sizeOfBox - sizeOfBody) / 2) / sizeOfBody;
-                if ((X == randX) && (Y == randY)) {  // Checking if apple can be spawned
+                if ((X == appleX) && (Y == appleY)) {  // Checking if apple can be spawned
                     i = length;
-                    randX = rand.nextInt(sizeOfBoard);
-                    randY = rand.nextInt(sizeOfBoard);
+                    appleX = rand.nextInt(sizeOfBoard);
+                    appleY = rand.nextInt(sizeOfBoard);
                 }
             }
-            apple.setLocation(sizeOfBox * randX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * randY + (sizeOfBox - sizeOfBody) / 2);
+            apple.setLocation(sizeOfBox * appleX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * appleY + (sizeOfBox - sizeOfBody) / 2);
+            if ((appleX + appleY) % 20 == 0) {
+                shrinkX = rand.nextInt(sizeOfBoard);
+                shrinkY = rand.nextInt(sizeOfBoard);
+                shrink.setLocation(sizeOfBox * shrinkX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * shrinkY + (sizeOfBox - sizeOfBody) / 2);
+            }
+
+            if ((appleX + appleY + 5) % 20 == 0) {
+                slowDownX = rand.nextInt(sizeOfBoard);
+                slowDownY = rand.nextInt(sizeOfBoard);
+                slowDown.setLocation(sizeOfBox * slowDownX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * slowDownY + (sizeOfBox - sizeOfBody) / 2);
+            }
+
+            if ((appleX + appleY + 3) % 12 == 0) {
+                watermelonX = rand.nextInt(sizeOfBoard);
+                watermelonY = rand.nextInt(sizeOfBoard);
+                watermelon.setLocation(sizeOfBox * watermelonX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox * watermelonY + (sizeOfBox - sizeOfBody) / 2);
+            }
+        }
+
+        if ((posX == shrinkX) && (posY == shrinkY)) {
+            for (int i = length - 1; i >= length / 2; i--) {
+                playerSprite.get(i).setLocation(-100, -100);   // Changing location of body
+                //System.out.println(playerSprite.get(i).getLocation().x);
+            }
+            length /= 2;
+            shrink.setLocation(-100, -100);
+            shrinkX = -5;
+            shrinkY = -5;
+        }
+
+        if ((posX == slowDownX) && (posY == slowDownY)) {
+            Gameplay.waitTime += 15;
+            direction = 0;
+            slowDown.setLocation(-100, -100);
+            slowDownX = -5;
+            slowDownY = -5;
+        }
+
+        if ((posX == watermelonX) && (posY == watermelonY)) {
+            growSnake(); growSnake(); growSnake(); growSnake(); growSnake();
+            watermelon.setLocation(-100, -100);
+            watermelonX = -5;
+            watermelonY = -5;
         }
 
     }
     public void growSnake() {                      // Increasing size length and reducing time between moves.
         length++;
+        score++;
         if (Gameplay.waitTime > 50) {
             Gameplay.waitTime -= 1;
         }
@@ -114,9 +180,15 @@ public class Player {
         }
         posX = sizeOfBoard / 2;
         posY = sizeOfBoard / 2;
+        slowDownX = slowDownY = watermelonY = watermelonX = shrinkX = shrinkY = -5;
+        watermelon.setLocation(-100, -100);
+        shrink.setLocation(-100, -100);
+        slowDown.setLocation(-100, -100);
+
         playerSprite.get(0).setLocation(posX * sizeOfBox, posY * sizeOfBox);
         length = 1;
         direction = 0;
+        score = 0;
         Gameplay.waitTime = 120;
         alive = true;
         Frame.setTitle("Snake!");
