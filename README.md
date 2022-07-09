@@ -1,6 +1,9 @@
 # Snake2D
 
-As simple as it can be. Started this project to sum up my Java knowledge (2 days before first commit I hadn't even known how Java looks like). 
-Control your snake with direction arrows. Every time you eat an apple, game speeds up a little bit, up to specific value.
+Started this project to sum up my Java knowledge (2 days before first commit I hadn't even known how Java looks like). 
 
-In future I will add restart button, score and powerups system (maybe). Also, code needs to be cleaned up.
+Control your snake with direction arrows. Every time you eat an apple, game speeds up a little bit, up to specific value.
+Red square - apple, your snake grows, game speeds up a bit.
+Cyan square - freeze, your snake stops, game slows down a little bit more.
+Yellows square - shrink, your snake is now shorter by half.
+Pink square - watermelon, your snake grows x5.
