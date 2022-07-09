@@ -46,11 +46,13 @@ public class Player {
 
             if ((posX < 0) || (posX >= sizeOfBoard) || (posY < 0) || (posY >= sizeOfBoard)) {  // Collision with borders
                 alive = false;
+                Frame.setTitle("Press R to restart!");
             } else {
                 for (int i = 1; i < length; i++) {
                     if (playerSprite.get(i).getLocation().x == playerSprite.get(0).getLocation().x) {
                         if (playerSprite.get(i).getLocation().y == playerSprite.get(0).getLocation().y) {   // Collsion with another part of body
                             alive = false;
+                            Frame.setTitle("Press R to restart!");
                         }
                     }
                 }
@@ -81,6 +83,7 @@ public class Player {
             }
             apple.setLocation(randX, randY);  // If location isn't occupied, spawn apple
         }
+
     }
     public void growSnake() {                      // Increasing size length and reducing time between moves.
         length++;
@@ -96,6 +99,21 @@ public class Player {
         node.setSize(sizeOfBody, sizeOfBody);
         playerSprite.add(node);
         Frame.add(node);
+    }
+
+    public void restart(JFrame Frame) {
+        for (int i = length - 1; i >= 1; i--) {
+            playerSprite.get(i).setLocation(-100, -100);   // Changing location of body
+            //System.out.println(playerSprite.get(i).getLocation().x);
+        }
+        posX = sizeOfBoard / 2;
+        posY = sizeOfBoard / 2;
+        playerSprite.get(0).setLocation(posX * sizeOfBox, posY * sizeOfBox);
+        length = 1;
+        direction = 0;
+        waitTime = 120;
+        alive = true;
+        Frame.setTitle("Snake!");
     }
 
 }

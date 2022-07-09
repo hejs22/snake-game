@@ -61,6 +61,9 @@ public class Gameplay extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     P.direction = 4;
                 }
+                if (e.getKeyChar() == 'r') {
+                    P.restart(Frame);
+                }
             }
 
             @Override
