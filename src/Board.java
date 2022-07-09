@@ -30,7 +30,7 @@ public class Board {
                 Square[i][j].setLocation(i * sizeOfBox, j * sizeOfBox);
                 Square[i][j].setSize(sizeOfBox, sizeOfBox);
                 if (red) {
-                    Square[i][j].setBackground(new java.awt.Color(60,179,113));
+                    Square[i][j].setBackground(new java.awt.Color(60,189,113));
                     red = false;
                 } else {
                     Square[i][j].setBackground(new java.awt.Color(60,199,113));
