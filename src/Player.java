@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,7 +10,7 @@ public class Player {
     int sizeOfBoard = Gameplay.sizeOfBoard;
     static int sizeOfBody = 30;
     int sizeOfBox = Gameplay.sizeOfBox;
-    static ArrayList<JPanel> playerSprite = new ArrayList<>();
+    static ArrayList<CircularPanel> playerSprite = new ArrayList<>();
     static Consumable apple = new Consumable(3, 3, sizeOfBody, Consumable.type.APPLE);
     static Consumable shrink = new Consumable(-5, -5, sizeOfBody, Consumable.type.SHRINK);
     static Consumable slowDown = new Consumable(-5, -5, sizeOfBody, Consumable.type.FREEZE);
@@ -23,8 +24,8 @@ public class Player {
         length = 1;
         posX = sizeOfBoard / 2;
         posY = sizeOfBoard / 2;
-        playerSprite.add(new JPanel()); // Spawning head of Snake
-        playerSprite.get(0).setBackground(new java.awt.Color(74, 0, 147));
+        playerSprite.add(new CircularPanel(new java.awt.Color(74, 0, 147), 0, 0)); // Spawning head of Snake
+        playerSprite.get(0).setBackground(new java.awt.Color(74, 0, 147, 0));
         playerSprite.get(0).setLocation(sizeOfBox*posX + (sizeOfBox - sizeOfBody) / 2, sizeOfBox*posY + (sizeOfBox - sizeOfBody) / 2);
         playerSprite.get(0).setSize(sizeOfBody, sizeOfBody);
         Frame.add(playerSprite.get(0));
@@ -38,6 +39,7 @@ public class Player {
         Frame.add(ScoreLine);
         ScoreLine.setLocation(sizeOfBoard * sizeOfBox - 120, 15);
         ScoreLine.setSize(100, 10);
+        ScoreLine.setFont(new Font("Serif", Font.BOLD, 12));
     }
 
     public void movePlayer(JFrame Frame) {       // Making moves based on input, checking if collision occurs or if apple is eaten
@@ -56,8 +58,7 @@ public class Player {
 
             if ((posX < 0) || (posX >= sizeOfBoard) || (posY < 0) || (posY >= sizeOfBoard)) {  // Collision with borders
                 if (hard) {
-                    alive = false;
-                    Frame.setTitle("Press R to restart!");
+                    kill(Frame);
                 } else {
                     if (posX < 0) posX = sizeOfBoard - 1;
                     if (posY < 0) posY = sizeOfBoard - 1;
@@ -66,12 +67,10 @@ public class Player {
                 }
             }
 
-
                 for (int i = 1; i < length; i++) {
                     if (playerSprite.get(i).getLocation().x == playerSprite.get(0).getLocation().x) {
                         if (playerSprite.get(i).getLocation().y == playerSprite.get(0).getLocation().y) {   // Collsion with another part of body
-                            alive = false;
-                            Frame.setTitle("Press R to restart!");
+                            kill(Frame);
                         }
                     }
                 }
@@ -154,9 +153,17 @@ public class Player {
             Gameplay.waitTime -= 1;
         }
     }
+
+    public void kill(JFrame Frame) {
+        ScoreLine.setLocation(sizeOfBoard * sizeOfBox/2 - 50, sizeOfBoard * sizeOfBox/2 - 50);
+        ScoreLine.setSize(100, 100);
+        ScoreLine.setFont(new Font("Serif", Font.BOLD, 25));
+        alive = false;
+        Frame.setTitle("Press R to restart!");
+    }
     public void spawnNode(JFrame Frame) {       // Spawning elements of snake body
-        JPanel node = new JPanel();
-        node.setBackground(new java.awt.Color(0, 63, 178));
+        CircularPanel node = new CircularPanel(new java.awt.Color(0, 63, 178), 5, 5);
+        node.setBackground(new java.awt.Color(0, 63, 178, 0));
         node.setVisible(true);
         node.setLocation(-100, -100);
         node.setSize(sizeOfBody, sizeOfBody);
@@ -187,6 +194,10 @@ public class Player {
         }
         alive = true;
         Frame.setTitle("Snake!");
+
+        ScoreLine.setLocation(sizeOfBoard * sizeOfBox - 120, 15);
+        ScoreLine.setSize(100, 10);
+        ScoreLine.setFont(new Font("Serif", Font.BOLD, 12));
     }
 
 }

@@ -9,6 +9,7 @@ import javax.swing.*;
 public class Gameplay extends JFrame {
 
     static int sizeOfBoard = 33;
+    static double blueTint = 175;
     static int waitTime = 120;
     static int sizeOfBox = 30;
     static JFrame Frame = new JFrame();
